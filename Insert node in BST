@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int d) {
+        this->data = d;
+        this->left = this->right = NULL;
+    }
+};
+
+Node* insertintobst(Node* root, int d) {
+    if (root == NULL) {
+        return new Node(d);
+    }
+
+    if (d > root->data) {
+        root->right = insertintobst(root->right, d);
+    } else {
+        root->left = insertintobst(root->left, d);
+    }
+
+    return root;
+}
+
+void takeinput(Node*& root) {
+    int data;
+    cin >> data;
+
+    while (data != -1) {
+        root = insertintobst(root, data);
+        cin >> data;
+    }
+}
+
+int main() {
+    Node* root = NULL;
+
+    cout << "Enter the data for BST (end with -1):" << endl;
+    takeinput(root);
+
+    queue<Node*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        int levelSize = q.size(); // Number of nodes at the current level
+
+        for (int i = 0; i < levelSize; i++) {
+            Node* curr = q.front();
+            q.pop();
+
+            cout << curr->data << " ";
+
+            if (curr->left) q.push(curr->left);
+            if (curr->right) q.push(curr->right);
+        }
+
+        cout << endl; // Newline after each level
+    }
+
+    return 0;
+}
