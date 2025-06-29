@@ -1,0 +1,28 @@
+class Solution {
+public:
+    void inorder(TreeNode* root, vector<int>& inorderVal) {
+        if (!root) return;
+        inorder(root->left, inorderVal);
+        inorderVal.push_back(root->val);
+        inorder(root->right, inorderVal);
+    }
+
+    TreeNode* flatten(TreeNode* root) {
+        vector<int> inorderVal;
+        inorder(root, inorderVal);
+
+        if (inorderVal.empty()) return nullptr;
+
+        TreeNode* newRoot = new TreeNode(inorderVal[0]);
+        TreeNode* curr = newRoot;
+
+        for (int i = 1; i < inorderVal.size(); i++) {
+            TreeNode* temp = new TreeNode(inorderVal[i]);
+            curr->left = nullptr;
+            curr->right = temp;
+            curr = temp;
+        }
+
+        return newRoot;
+    }
+};
