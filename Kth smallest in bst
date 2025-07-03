@@ -1,0 +1,76 @@
+BRUTE FORCE:
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode
+    {
+    public:
+        T data;
+        TreeNode<T> *left, *right;
+        TreeNode() : data(0), left(NULL), right(NULL) {}
+        TreeNode(T x) : data(x), left(NULL), right(NULL) {}
+        TreeNode(T x, TreeNode<T> *left, TreeNode<T> *right) : data(x), left(left), right(right) {}
+    };
+
+************************************************************/
+
+void inorder(TreeNode<int>*root , vector<int>&in){
+    if(!root)return;
+
+    inorder(root->left , in);
+    in.push_back(root->data);
+    inorder(root->right , in);
+}
+int kthSmallest(TreeNode<int> *root, int k)
+{
+    //  Write the code here.
+
+    vector<int>instore;
+    inorder(root , instore);
+    return instore[k-1];
+}
+
+
+
+
+
+OPTIMIZED:
+
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode
+    {
+    public:
+        T data;
+        TreeNode<T> *left, *right;
+        TreeNode() : data(0), left(NULL), right(NULL) {}
+        TreeNode(T x) : data(x), left(NULL), right(NULL) {}
+        TreeNode(T x, TreeNode<T> *left, TreeNode<T> *right) : data(x), left(left), right(right) {}
+    };
+
+************************************************************/
+ int ans=-1,cnt=0;
+void inorder(TreeNode<int>*root , int k){
+    if(!root)return;
+
+   
+
+    inorder(root->left , k);
+
+    cnt++;
+
+    if(cnt==k)ans=root->data;
+    inorder(root->right , k);
+}
+int kthSmallest(TreeNode<int> *root, int k)
+{
+    //  Write the code here.
+
+    inorder(root , k);
+    return ans;
+}
